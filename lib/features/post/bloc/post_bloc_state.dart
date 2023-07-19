@@ -13,6 +13,13 @@ class PostFetchingLoadingState extends PostBlocState {
 }
 
 class PostFetchingErrorState extends PostBlocState {
+
+}
+
+class AddPostSuccess extends PostsActionState{
+  
+}
+class AddPostError extends PostsActionState{
   
 }
 

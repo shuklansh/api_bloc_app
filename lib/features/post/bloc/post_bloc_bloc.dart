@@ -15,8 +15,10 @@ class PostBlocBloc extends Bloc<PostBlocEvent, PostBlocState> {
 
   PostBlocBloc() : super(PostBlocInitial()) {      
       on<PostsInitialFetchEvent>(postsInitialFetchEvent);
+      on<PostsAddEvent>(addPostEvent);
     }
   
+
 
   FutureOr<void> postsInitialFetchEvent(
       PostsInitialFetchEvent event, Emitter<PostBlocState> emit) async {
@@ -30,5 +32,19 @@ class PostBlocBloc extends Bloc<PostBlocEvent, PostBlocState> {
     //   emit(PostFetchingErrorState());
     //   log(e.toString());
     // }
+  
+  FutureOr<void> addPostEvent(
+    PostsAddEvent event, Emitter<PostBlocState> emit) async{
+      bool successVal = await PostRepo.addPosts();
+      print(successVal);
+      if(successVal){
+        emit(AddPostSuccess());  
+        
+      }else{
+        emit(AddPostError());
+        
+      }
+
+  }
   }
 
