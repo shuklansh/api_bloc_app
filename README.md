@@ -1,6 +1,6 @@
 # api_bloc_app
 
-BloC network calling with http (codealong).
+State management with BloC (codealong practice).
 
 ## Screenshot
 
