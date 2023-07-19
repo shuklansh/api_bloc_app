@@ -1,6 +1,8 @@
 import 'dart:convert';
 
+import 'package:api_bloc_app/features/post/bloc/post_bloc_bloc.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:http/http.dart' as http;
 
 class PostsPage extends StatefulWidget {
@@ -11,21 +13,11 @@ class PostsPage extends StatefulWidget {
 }
 
 class _PostsPageState extends State<PostsPage> {
-
-  var text = "";
-  
-  void getText() async{
-    var uri = Uri.parse("https://jsonplaceholder.typicode.com/todos/1");
-    var response = await http.get(uri);
-    var bodyy = jsonDecode(response.body).toString();
-    setState(() {
-      text = bodyy;
-    });
-  }
+  final PostBlocBloc postBloc = PostBlocBloc();
 
   @override
   void initState() {
-    getText();
+    postBloc.add(PostsInitialFetchEvent());
     super.initState();
   }
 
@@ -35,7 +27,56 @@ class _PostsPageState extends State<PostsPage> {
       appBar: AppBar(
         title: const Text("Posts page"),
       ),
-      body: Center(child: Text(text)),
+      body: BlocConsumer<PostBlocBloc, PostBlocState>(
+        bloc : postBloc,
+        listenWhen: (previous, current) => current is PostsActionState,
+        buildWhen: (previous, current) => current is !PostsActionState,
+        listener: (context, state) {
+          
+        },
+        builder: (context, state){
+          switch (state.runtimeType) {
+            case PostFetchingLoadingState:
+              return const Center(child: CircularProgressIndicator(color: Colors.green,));
+            case PostFetchingSuccessState:
+              final successState = state as PostFetchingSuccessState;
+              return Container(
+            child: ListView.builder(itemCount: successState.posts.length,
+            itemBuilder: (context, index) {
+              
+              return Padding(
+                padding: EdgeInsets.all(12.0),
+                child: Container(
+                  clipBehavior: Clip.antiAliasWithSaveLayer,
+                  decoration: BoxDecoration( 
+                    
+                    borderRadius: BorderRadius.circular(12),
+                    color: Color.fromARGB(255, 216, 216, 216)              
+                  ),
+                  padding: EdgeInsets.all(8),
+                  child: Column(
+                    
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                    Text(successState.posts[index].id.toString() + ". " + successState.posts[index].title, style: const TextStyle(
+                      color: Color.fromARGB(255, 70, 4, 76),
+                      fontSize: 24
+                    )),
+                    SizedBox(height: 12),
+                    Text(successState.posts[index].body),
+                    SizedBox(height: 12),
+                    
+                  ],),
+                ),
+              );
+            },),
+          );
+            default: return const Center(child: CircularProgressIndicator(color: Colors.blue,));
+          }
+          
+        },
+      ),
     );
   }
 }
