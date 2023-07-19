@@ -1,16 +1,7 @@
 # api_bloc_app
 
-A new Flutter project.
+BloC network calling with http (codealong).
 
-## Getting Started
+## Screenshot
 
-This project is a starting point for a Flutter application.
-
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+![image](https://github.com/shuklansh/api_bloc_app/assets/89148178/49968a42-069f-4996-8cf1-14f48d69638a)
